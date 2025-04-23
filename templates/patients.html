@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Patients</h1>
+<a href="{{ url_for('add_patient') }}" class="btn btn-primary mb-3">Add New Patient</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Aadhar ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Birth Date</th>
+            <th>Primary Physician</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.AadharID }}</td>
+            <td>{{ patient.Name }}</td>
+            <td>{{ patient.Address }}</td>
+            <td>{{ patient.BirthDate }}</td>
+            <td>{{ patient.PrimaryPhysician }}</td>
+            <td>
+                <a href="{{ url_for('update_patient', aadhar=patient.AadharID) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ url_for('delete_patient', aadhar=patient.AadharID) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

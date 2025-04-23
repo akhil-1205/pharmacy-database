@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Stock at {{ pharmacy }}</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Drug</th>
+            <th>Company</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in stock %}
+        <tr>
+            <td>{{ item.TradeName }}</td>
+            <td>{{ item.CompanyName }}</td>
+            <td>${{ "%.2f"|format(item.Price) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('show_pharmacies') }}" class="btn btn-primary">Back to Pharmacies</a>
+{% endblock %}

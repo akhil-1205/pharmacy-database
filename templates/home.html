@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Pharmacy Management System</h1>
+    <p class="lead">A comprehensive system for managing doctors, patients, pharmacies, and pharmaceutical companies.</p>
+    <hr class="my-4">
+    <p>Choose a section to manage from the navigation menu above or use the quick links below.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Doctors & Patients</h5>
+                <p class="card-text">Manage healthcare providers and their patients.</p>
+                <a href="{{ url_for('show_doctors') }}" class="btn btn-primary">Manage Doctors</a>
+                <a href="{{ url_for('show_patients') }}" class="btn btn-primary">Manage Patients</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Pharmacies & Sales</h5>
+                <p class="card-text">Handle pharmacy operations and drug sales.</p>
+                <a href="{{ url_for('show_pharmacies') }}" class="btn btn-primary">Manage Pharmacies</a>
+                <a href="{{ url_for('show_sells') }}" class="btn btn-primary">View Sales</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Companies & Drugs</h5>
+                <p class="card-text">Manage pharmaceutical companies and their products.</p>
+                <a href="{{ url_for('show_pharma') }}" class="btn btn-primary">Manage Companies</a>
+                <a href="{{ url_for('show_drugs') }}" class="btn btn-primary">Manage Drugs</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h3>Main Features</h3>
+        <div class="list-group">
+            <a href="{{ url_for('show_doctors') }}" class="list-group-item list-group-item-action">Manage Doctors</a>
+            <a href="{{ url_for('show_patients') }}" class="list-group-item list-group-item-action">Manage Patients</a>
+            <a href="{{ url_for('show_pharma') }}" class="list-group-item list-group-item-action">Manage Pharmaceutical Companies</a>
+            <a href="{{ url_for('show_drugs') }}" class="list-group-item list-group-item-action">Manage Drugs</a>
+            <a href="{{ url_for('show_pharmacies') }}" class="list-group-item list-group-item-action">Manage Pharmacies</a>
+            <a href="{{ url_for('show_prescriptions') }}" class="list-group-item list-group-item-action">Manage Prescriptions</a>
+            <a href="{{ url_for('show_contracts') }}" class="list-group-item list-group-item-action">Manage Contracts</a>
+            <a href="{{ url_for('show_sells') }}" class="list-group-item list-group-item-action">Manage Drug Sales</a>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <h3>Reports</h3>
+        <div class="list-group">
+            <a href="{{ url_for('report_patient_prescriptions') }}" class="list-group-item list-group-item-action">Patient Prescription Report</a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="searchCompanyDrugs()">Search Drugs by Company</a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="searchPharmacyStock()">Check Pharmacy Stock</a>
+        </div>
+    </div>
+</div>
+
+<!-- Pharmacy Stock Modal -->
+<div class="modal fade" id="pharmacyModal" tabindex="-1" role="dialog" aria-labelledby="pharmacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pharmacyModalLabel">Select Pharmacy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="pharmacyForm">
+                    <div class="form-group">
+                        <label for="pharmacySelect">Choose Pharmacy:</label>
+                        <select class="form-control" id="pharmacySelect">
+                            {% for pharmacy in pharmacies %}
+                                <option value="{{ pharmacy.Name }}">{{ pharmacy.Name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitPharmacyForm()">Check Stock</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Company Drugs Modal -->
+<div class="modal fade" id="companyModal" tabindex="-1" role="dialog" aria-labelledby="companyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyModalLabel">Select Company</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="companyForm">
+                    <div class="form-group">
+                        <label for="companySelect">Choose Company:</label>
+                        <select class="form-control" id="companySelect">
+                            {% for company in companies %}
+                                <option value="{{ company.Name }}">{{ company.Name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitCompanyForm()">View Drugs</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function searchCompanyDrugs() {
+    $('#companyModal').modal('show');
+}
+
+function searchPharmacyStock() {
+    $('#pharmacyModal').modal('show');
+}
+
+function submitCompanyForm() {
+    const company = document.getElementById('companySelect').value;
+    if (company) {
+        window.location.href = "/reports/drugs-by-company/" + encodeURIComponent(company);
+        $('#companyModal').modal('hide');
+    }
+}
+
+function submitPharmacyForm() {
+    const pharmacy = document.getElementById('pharmacySelect').value;
+    if (pharmacy) {
+        window.location.href = "/reports/pharmacy-stock/" + encodeURIComponent(pharmacy);
+        $('#pharmacyModal').modal('hide');
+    }
+}
+</script>
+
+<footer class="footer mt-5 py-3 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Pharmacy Management System</h5>
+                <p class="text-muted">A comprehensive solution for managing pharmaceutical operations.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/akhil-1205">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/akhil-mohammad/">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact</h5>
+                <p class="text-muted">
+                    Email: akhilmohammad04@gmail.com<br>
+                    Phone: +91 73306 84369
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <small class="text-muted">&copy; 2023 Pharmacy Management System. All rights reserved.</small>
+        </div>
+    </div>
+</footer>
+{% endblock %}

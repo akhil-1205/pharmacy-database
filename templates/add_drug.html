@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add New Drug</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="trade_name">Trade Name</label>
+        <input type="text" class="form-control" id="trade_name" name="trade_name" required>
+    </div>
+    <div class="form-group">
+        <label for="formula">Formula</label>
+        <input type="text" class="form-control" id="formula" name="formula" required>
+    </div>
+    <div class="form-group">
+        <label for="company_name">Company Name</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Drug</button>
+    <a href="{{ url_for('show_drugs') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

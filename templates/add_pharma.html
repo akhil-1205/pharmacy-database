@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add New Pharmaceutical Company</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="name">Company Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" class="form-control" id="phone" name="phone" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Company</button>
+    <a href="{{ url_for('show_pharma') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

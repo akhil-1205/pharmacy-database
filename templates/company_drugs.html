@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Drugs by {{ company }}</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Trade Name</th>
+            <th>Formula</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for drug in drugs %}
+        <tr>
+            <td>{{ drug.TradeName }}</td>
+            <td>{{ drug.Formula }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('show_pharma') }}" class="btn btn-primary">Back to Companies</a>
+{% endblock %}

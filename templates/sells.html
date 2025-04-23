@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Drug Sales</h1>
+<a href="{{ url_for('add_sells') }}" class="btn btn-primary mb-3">Add New Sale</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pharmacy</th>
+            <th>Trade Name</th>
+            <th>Company Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sell in sells %}
+        <tr>
+            <td>{{ sell.PharmacyName }}</td>
+            <td>{{ sell.TradeName }}</td>
+            <td>{{ sell.CompanyName }}</td>
+            <td>{{ sell.Price }}</td>
+            <td>
+                <a href="{{ url_for('update_sells', pharmacy=sell.PharmacyName, trade_name=sell.TradeName, company_name=sell.CompanyName) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ url_for('delete_sells', pharmacy=sell.PharmacyName, trade_name=sell.TradeName, company_name=sell.CompanyName) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

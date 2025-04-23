@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Doctor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-card">
+            <h1 class="page-header">Update Doctor</h1>
+            <div class="content-body">
+                <form method="post" action="{{ url_for('update_doctor', aadhar=doctor.AadharID) }}">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Aadhar ID:</label>
+                            <input type="text" name="aadhar" value="{{ doctor.AadharID }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Name:</label>
+                            <input type="text" name="name" value="{{ doctor.Name }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Specialty:</label>
+                            <input type="text" name="specialty" value="{{ doctor.Specialty }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Years of Experience:</label>
+                            <input type="number" name="years" value="{{ doctor.YearsOfExperience }}" required min="0">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-action btn-update">Update Doctor</button>
+                        <a href="{{ url_for('show_doctors') }}">Back to Doctors List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

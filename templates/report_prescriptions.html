@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Prescription Report</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Doctor Name</th>
+            <th>Drug Name</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prescription in prescriptions %}
+        <tr>
+            <td>{{ prescription.Date }}</td>
+            <td>{{ prescription.DoctorName }}</td>
+            <td>{{ prescription.TradeName }}</td>
+            <td>{{ prescription.Quantity }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('report_patient_prescriptions') }}" class="btn btn-primary">Back to Search</a>
+{% endblock %}

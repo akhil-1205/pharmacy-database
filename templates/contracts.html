@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Contracts</h1>
+<a href="{{ url_for('add_contract') }}" class="btn btn-primary mb-3">Add New Contract</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pharmacy</th>
+            <th>Company</th>
+            <th>Supervisor</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Text</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contract in contracts %}
+        <tr>
+            <td>{{ contract.PharmacyName }}</td>
+            <td>{{ contract.CompanyName }}</td>
+            <td>{{ contract.Supervisor }}</td>
+            <td>{{ contract.StartDate }}</td>
+            <td>{{ contract.EndDate }}</td>
+            <td>{{ contract.Text }}</td>
+            <td>
+                <a href="{{ url_for('update_contract', pharmacy=contract.PharmacyName, company=contract.CompanyName) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ url_for('delete_contract', pharmacy=contract.PharmacyName, company=contract.CompanyName) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
